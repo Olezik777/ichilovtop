@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/s136180/public_html/ichilovtop.ru/wp-content/themes/ichilovtop/
+    - /bin/rsync -av --delete --exclude='.git' --exclude='.cpanel.yml' --exclude='node_modules' --exclude='__MACOSX' ./ $DEPLOYPATH
