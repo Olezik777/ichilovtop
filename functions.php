@@ -24,20 +24,16 @@ function ichilovtop_theme_setup() {
 add_action('after_setup_theme', 'ichilovtop_theme_setup');
 
 function ichilovtop_enqueue_assets() {
-	$style_path = get_stylesheet_directory() . '/style.css';
-	$version    = wp_get_theme()->get('Version');
-	if (is_readable($style_path)) {
-		$version .= '.' . (string) filemtime($style_path);
-	}
 
 	wp_enqueue_style(
 		'ichilovtop-style',
-		get_stylesheet_uri(),
+		get_template_directory_uri() . '/style.css',
 		array(),
-		$version
+		filemtime(get_template_directory() . '/style.css')
 	);
+
 }
-add_action('wp_enqueue_scripts', 'ichilovtop_enqueue_assets');
+add_action('wp_enqueue_scripts', 'ichilovtop_enqueue_assets', 999);
 
 function ichilovtop_register_post_types() {
 	register_post_type(
