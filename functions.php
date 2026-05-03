@@ -24,16 +24,18 @@ function ichilovtop_theme_setup() {
 add_action('after_setup_theme', 'ichilovtop_theme_setup');
 
 function ichilovtop_enqueue_assets() {
-	// Always load this theme's main CSS from the parent theme directory. Using
-	// get_stylesheet_uri() breaks when a child theme is active: its style.css
-	// is often only a header stub, so the real rules never load.
-	$style_path = get_template_directory() . '/style.css';
-	$style_url  = get_template_directory_uri() . '/style.css';
+	$style_path = get_stylesheet_directory() . '/style.css';
 	$version    = wp_get_theme()->get('Version');
 	if (is_readable($style_path)) {
 		$version .= '.' . (string) filemtime($style_path);
 	}
-	wp_enqueue_style('ichilovtop-style', $style_url, array(), $version);
+
+	wp_enqueue_style(
+		'ichilovtop-style',
+		get_stylesheet_uri(),
+		array(),
+		$version
+	);
 }
 add_action('wp_enqueue_scripts', 'ichilovtop_enqueue_assets');
 
