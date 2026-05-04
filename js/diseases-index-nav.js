@@ -60,6 +60,17 @@
 			return activeId;
 		}
 
+		function scrollToSection(target, behavior) {
+			var offset = getHeaderOffset();
+			// Keep section title a bit above the activation threshold.
+			var extraOffset = 6;
+			var top = target.getBoundingClientRect().top + window.scrollY - offset - extraOffset;
+			window.scrollTo({
+				top: Math.max(0, Math.round(top)),
+				behavior: behavior
+			});
+		}
+
 		var ticking = false;
 		function onScroll() {
 			if (!ticking) {
@@ -89,7 +100,7 @@
 				return;
 			}
 			e.preventDefault();
-			target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			scrollToSection(target, 'smooth');
 			if (history.replaceState) {
 				history.replaceState(null, '', hash);
 			} else {
@@ -113,7 +124,7 @@
 			var el = document.getElementById(hid);
 			if (el && root.contains(el)) {
 				window.requestAnimationFrame(function () {
-					el.scrollIntoView({ behavior: 'auto', block: 'start' });
+					scrollToSection(el, 'auto');
 					setActive(hid);
 				});
 			} else {
