@@ -97,6 +97,11 @@ select {
   overflow: hidden;
 }
 
+/* Sticky in-page sidebars need a scroll ancestor without overflow clipping */
+.site-main:has(.diseases-index) {
+  overflow: visible;
+}
+
 .container {
   width: min(calc(100% - 32px), var(--container));
   margin: 0 auto;
@@ -1386,14 +1391,34 @@ input[type="submit"]:focus {
   font-size: 1.15rem;
 }
 
+.diseases-index .content-layout {
+  align-items: start;
+  align-content: start;
+}
+
 .sidebar-box--diseases-nav {
   position: sticky;
-  top: 100px;
+  top: 96px;
   align-self: start;
-  max-height: calc(100vh - 120px);
+  max-height: calc(100vh - 112px);
   display: flex;
   flex-direction: column;
   min-height: 0;
+  margin-top: 0;
+  z-index: 10;
+}
+
+@media (min-width: 1081px) {
+  .diseases-index .content-layout > .page-content {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .diseases-index .content-layout > aside.sidebar-box--diseases-nav {
+    grid-column: 2;
+    grid-row: 1;
+    margin-top: 0;
+  }
 }
 
 .diseases-index__nav {
@@ -1443,11 +1468,18 @@ input[type="submit"]:focus {
     flex-direction: column;
   }
 
+  .diseases-index .content-layout > .page-content,
+  .diseases-index .content-layout > aside.sidebar-box--diseases-nav {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
   .diseases-index .sidebar-box--diseases-nav {
     order: -1;
     position: static;
     max-height: none;
     top: auto;
+    z-index: auto;
   }
 }
 
