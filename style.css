@@ -729,7 +729,7 @@ input[type="submit"]:focus {
 
 .sidebar-box ul {
   margin: 0;
-  padding-left: 18px;
+  padding-left: 0px;
 }
 
 .sidebar-box li + li {
@@ -1434,7 +1434,6 @@ input[type="submit"]:focus {
 .diseases-index__nav-link.is-active,
 .diseases-index__nav-link[aria-current="location"] {
   background: rgba(15, 111, 144, 0.12);
-  border-left-color: var(--color-primary);
   color: var(--color-primary);
 }
 
