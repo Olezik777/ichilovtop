@@ -23,9 +23,6 @@ $catalog_title = ichilovtop_get_field(
 	'',
 	$page_id
 );
-if ($catalog_title === '') {
-	$catalog_title = __('Заболевания по направлениям', 'ichilovtop');
-}
 
 $catalog_lead = ichilovtop_get_field('diseases_index_catalog_lead', '', $page_id);
 
@@ -61,7 +58,9 @@ if (! empty($grouped['uncategorized'])) {
 			<?php while (have_posts()) : the_post(); ?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<header class="entry-header">
-						<h1 class="entry-title"><?php the_title(); ?></h1>
+						<h1 class="entry-title">
+							<?php echo esc_html($catalog_title !== '' ? $catalog_title : get_the_title()); ?>
+						</h1>
 					</header>
 
 					<?php if (has_post_thumbnail()) : ?>
@@ -80,9 +79,8 @@ if (! empty($grouped['uncategorized'])) {
 			$has_catalog = ! empty($grouped['sections']) || ! empty($grouped['uncategorized']);
 			if ($has_catalog) :
 				?>
-				<section class="section-tight diseases-index__catalog" aria-labelledby="diseases-catalog-heading">
+				<section class="section-tight diseases-index__catalog">
 					<div class="section-header diseases-index__catalog-header">
-						<h2 id="diseases-catalog-heading" class="section-title"><?php echo esc_html($catalog_title); ?></h2>
 						<?php if ($catalog_lead !== '') : ?>
 							<p class="section-description diseases-index__lead"><?php echo esc_html($catalog_lead); ?></p>
 						<?php endif; ?>
