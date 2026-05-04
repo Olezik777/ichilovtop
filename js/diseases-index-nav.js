@@ -62,9 +62,9 @@
 
 		function scrollToSection(target, behavior) {
 			var offset = getHeaderOffset();
-			// Keep section title a bit above the activation threshold.
-			var extraOffset = 6;
-			var top = target.getBoundingClientRect().top + window.scrollY - offset - extraOffset;
+			// Keep section title slightly under activation threshold.
+			var extraOffset = 26;
+			var top = target.getBoundingClientRect().top + window.scrollY - offset + extraOffset;
 			window.scrollTo({
 				top: Math.max(0, Math.round(top)),
 				behavior: behavior
@@ -107,6 +107,7 @@
 				window.location.hash = hash;
 			}
 			setActive(id);
+			window.setTimeout(applyFromScrollPosition, 380);
 		});
 
 		window.addEventListener('scroll', onScroll, { passive: true });
