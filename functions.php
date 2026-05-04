@@ -32,6 +32,19 @@ function ichilovtop_enqueue_assets() {
 		filemtime(get_template_directory() . '/style.css')
 	);
 
+	$diseases_nav = get_template_directory() . '/js/diseases-index-nav.js';
+	$diseases_tpl = get_page_template();
+	$uses_diseases_page =
+		$diseases_tpl && basename($diseases_tpl) === 'page-diseases.php';
+	if ($uses_diseases_page && is_readable($diseases_nav)) {
+		wp_enqueue_script(
+			'ichilovtop-diseases-index-nav',
+			get_template_directory_uri() . '/js/diseases-index-nav.js',
+			array(),
+			filemtime($diseases_nav),
+			true
+		);
+	}
 }
 add_action('wp_enqueue_scripts', 'ichilovtop_enqueue_assets', 999);
 
@@ -205,6 +218,22 @@ function ichilovtop_group_diseases_by_department() {
 		'sections'      => $sections,
 		'uncategorized' => $uncategorized,
 	);
+}
+
+/**
+ * HTML id for a diseases catalog section (department anchor).
+ *
+ * @param WP_Term|string $term Parent term, or the string 'uncategorized'.
+ */
+function ichilovtop_disease_department_section_id($term) {
+	if ($term === 'uncategorized') {
+		return 'disease-dept-other';
+	}
+	if ($term instanceof WP_Term) {
+		return 'disease-dept-' . (int) $term->term_id;
+	}
+
+	return 'disease-dept-unknown';
 }
 
 add_filter('use_block_editor_for_post', '__return_false', 100);

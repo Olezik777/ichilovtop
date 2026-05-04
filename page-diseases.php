@@ -39,6 +39,20 @@ if ($uncat_title === '') {
 }
 
 $grouped = ichilovtop_group_diseases_by_department();
+
+$nav_items = array();
+foreach ($grouped['sections'] as $section_nav) {
+	$nav_items[] = array(
+		'id'    => ichilovtop_disease_department_section_id($section_nav['parent']),
+		'label' => $section_nav['parent']->name,
+	);
+}
+if (! empty($grouped['uncategorized'])) {
+	$nav_items[] = array(
+		'id'    => ichilovtop_disease_department_section_id('uncategorized'),
+		'label' => $uncat_title,
+	);
+}
 ?>
 
 <div class="content-area diseases-index">
@@ -75,7 +89,10 @@ $grouped = ichilovtop_group_diseases_by_department();
 					</div>
 
 					<?php foreach ($grouped['sections'] as $section) : ?>
-						<section class="diseases-index__department">
+						<section
+							class="diseases-index__department"
+							id="<?php echo esc_attr(ichilovtop_disease_department_section_id($section['parent'])); ?>"
+						>
 							<h3 class="diseases-index__department-title"><?php echo esc_html($section['parent']->name); ?></h3>
 							<?php if ($section['parent']->description) : ?>
 								<p class="diseases-index__department-desc"><?php echo esc_html($section['parent']->description); ?></p>
@@ -111,7 +128,10 @@ $grouped = ichilovtop_group_diseases_by_department();
 					<?php endforeach; ?>
 
 					<?php if (! empty($grouped['uncategorized'])) : ?>
-						<section class="diseases-index__department diseases-index__department--uncategorized">
+						<section
+							class="diseases-index__department diseases-index__department--uncategorized"
+							id="<?php echo esc_attr(ichilovtop_disease_department_section_id('uncategorized')); ?>"
+						>
 							<h3 class="diseases-index__department-title"><?php echo esc_html($uncat_title); ?></h3>
 							<ul class="diseases-index__list posts-grid">
 								<?php foreach ($grouped['uncategorized'] as $d_post) : ?>
@@ -134,20 +154,38 @@ $grouped = ichilovtop_group_diseases_by_department();
 			<?php endif; ?>
 		</div>
 
-		<aside class="sidebar-box">
-			<span class="eyebrow"><?php esc_html_e('Навигация', 'ichilovtop'); ?></span>
-			<h3><?php esc_html_e('Разделы сайта', 'ichilovtop'); ?></h3>
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'primary',
-					'container'      => false,
-					'fallback_cb'    => 'wp_page_menu',
-					'menu_class'     => 'menu',
-				)
-			);
-			?>
-		</aside>
+		<?php if (! empty($nav_items)) : ?>
+			<aside class="sidebar-box sidebar-box--diseases-nav">
+				<span class="eyebrow"><?php esc_html_e('Каталог', 'ichilovtop'); ?></span>
+				<h3 class="diseases-index__nav-heading"><?php esc_html_e('Отделения', 'ichilovtop'); ?></h3>
+				<nav class="diseases-index__nav" aria-label="<?php esc_attr_e('Навигация по отделениям на странице', 'ichilovtop'); ?>" data-diseases-nav>
+					<ul class="diseases-index__nav-list">
+						<?php foreach ($nav_items as $item) : ?>
+							<li>
+								<a class="diseases-index__nav-link" href="#<?php echo esc_attr($item['id']); ?>">
+									<?php echo esc_html($item['label']); ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</nav>
+			</aside>
+		<?php else : ?>
+			<aside class="sidebar-box">
+				<span class="eyebrow"><?php esc_html_e('Навигация', 'ichilovtop'); ?></span>
+				<h3><?php esc_html_e('Разделы сайта', 'ichilovtop'); ?></h3>
+				<?php
+				wp_nav_menu(
+					array(
+						'theme_location' => 'primary',
+						'container'      => false,
+						'fallback_cb'    => 'wp_page_menu',
+						'menu_class'     => 'menu',
+					)
+				);
+				?>
+			</aside>
+		<?php endif; ?>
 	</div>
 </div>
 
