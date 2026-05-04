@@ -1363,6 +1363,10 @@ input[type="submit"]:focus {
   padding: 0;
 }
 
+.diseases-index__item > a {
+  display: inline-block;
+}
+
 .diseases-index__item-title {
   margin: 0;
   font-size: 1.05rem;

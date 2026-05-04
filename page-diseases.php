@@ -109,9 +109,7 @@ if (! empty($grouped['uncategorized'])) {
 								<ul class="diseases-index__list posts-grid">
 									<?php foreach ($block['posts'] as $d_post) : ?>
 										<li class="diseases-index__item post-card">
-											<h5 class="diseases-index__item-title">
-												<a href="<?php echo esc_url(get_permalink($d_post)); ?>"><?php echo esc_html(get_the_title($d_post)); ?></a>
-											</h5>
+											<a class="diseases-index__item-title" href="<?php echo esc_url(get_permalink($d_post)); ?>"><?php echo esc_html(get_the_title($d_post)); ?></a>
 											<?php
 											$excerpt = get_the_excerpt($d_post);
 											if ($excerpt !== '') :
@@ -134,9 +132,7 @@ if (! empty($grouped['uncategorized'])) {
 							<ul class="diseases-index__list posts-grid">
 								<?php foreach ($grouped['uncategorized'] as $d_post) : ?>
 									<li class="diseases-index__item post-card">
-										<h5 class="diseases-index__item-title">
-											<a href="<?php echo esc_url(get_permalink($d_post)); ?>"><?php echo esc_html(get_the_title($d_post)); ?></a>
-										</h5>
+										<a class="diseases-index__item-title" href="<?php echo esc_url(get_permalink($d_post)); ?>"><?php echo esc_html(get_the_title($d_post)); ?></a>
 										<?php
 										$excerpt = get_the_excerpt($d_post);
 										if ($excerpt !== '') :
