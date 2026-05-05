@@ -1227,36 +1227,129 @@ function ichilovtop_register_diseases_index_page_acf_fields() {
 		return;
 	}
 
+	$hero_trust_defaults = array(
+		array(
+			'value' => __('72 ч', 'ichilovtop'),
+			'label' => __('организация диагностики', 'ichilovtop'),
+		),
+		array(
+			'value' => __('200+', 'ichilovtop'),
+			'label' => __('врачей и профессоров', 'ichilovtop'),
+		),
+		array(
+			'value' => __('24/7', 'ichilovtop'),
+			'label' => __('сопровождение пациента', 'ichilovtop'),
+		),
+		array(
+			'value' => __('Tel Aviv', 'ichilovtop'),
+			'label' => __('Sourasky · JCI', 'ichilovtop'),
+		),
+	);
+
 	acf_add_local_field_group(
 		array(
 			'key'    => 'group_ichilovtop_diseases_index',
 			'title'  => __('Страница «Заболевания» (каталог)', 'ichilovtop'),
-			'fields' => array(
+			'fields' => array_merge(
 				array(
-					'key'           => 'field_ich_diseases_index_catalog_title',
-					'label'         => __('Заголовок блока каталога', 'ichilovtop'),
-					'instructions'  => __('Если пусто — используется стандартный заголовок.', 'ichilovtop'),
-					'name'          => 'diseases_index_catalog_title',
-					'type'          => 'text',
-					'default_value' => '',
+					array(
+						'key'   => 'field_ich_diseases_index_hero_tab',
+						'label' => __('Баннер', 'ichilovtop'),
+						'type'  => 'tab',
+					),
+					array(
+						'key'           => 'field_ich_diseases_index_hero_badge',
+						'label'         => __('Бейдж баннера', 'ichilovtop'),
+						'name'          => 'diseases_index_hero_badge',
+						'type'          => 'text',
+						'default_value' => __('Каталог заболеваний', 'ichilovtop'),
+					),
+					array(
+						'key'           => 'field_ich_diseases_index_hero_title',
+						'label'         => __('Заголовок баннера', 'ichilovtop'),
+						'name'          => 'diseases_index_hero_title',
+						'type'          => 'text',
+						'default_value' => __('Лечение заболеваний в Израиле', 'ichilovtop'),
+					),
+					array(
+						'key'           => 'field_ich_diseases_index_hero_title_accent',
+						'label'         => __('Акцент заголовка баннера', 'ichilovtop'),
+						'name'          => 'diseases_index_hero_title_accent',
+						'type'          => 'text',
+						'default_value' => __('с ведущими специалистами Ихилов', 'ichilovtop'),
+					),
+					array(
+						'key'           => 'field_ich_diseases_index_hero_lede',
+						'label'         => __('Описание баннера', 'ichilovtop'),
+						'name'          => 'diseases_index_hero_lede',
+						'type'          => 'textarea',
+						'rows'          => 3,
+						'default_value' => __('Найдите нужное заболевание, направление лечения или получите предварительную консультацию по вашему диагнозу.', 'ichilovtop'),
+					),
+					array(
+						'key'           => 'field_ich_diseases_index_hero_search_placeholder',
+						'label'         => __('Placeholder поиска', 'ichilovtop'),
+						'name'          => 'diseases_index_hero_search_placeholder',
+						'type'          => 'text',
+						'default_value' => __('Например: рак молочной железы, аритмия, грыжа диска...', 'ichilovtop'),
+					),
+					array(
+						'key'           => 'field_ich_diseases_index_hero_search_button',
+						'label'         => __('Текст кнопки поиска', 'ichilovtop'),
+						'name'          => 'diseases_index_hero_search_button',
+						'type'          => 'text',
+						'default_value' => __('Найти', 'ichilovtop'),
+					),
+				),
+				ichilovtop_make_item_fields(
+					'diseases_index_hero_trust',
+					'Пункт доверия',
+					4,
+					array(
+						'value' => array('label' => 'Значение', 'type' => 'text'),
+						'label' => array('label' => 'Подпись', 'type' => 'text'),
+					),
+					$hero_trust_defaults
 				),
 				array(
-					'key'           => 'field_ich_diseases_index_catalog_lead',
-					'label'         => __('Текст над списком заболеваний', 'ichilovtop'),
-					'instructions'  => __('Краткое вступление между контентом страницы и каталогом.', 'ichilovtop'),
-					'name'          => 'diseases_index_catalog_lead',
-					'type'          => 'textarea',
-					'rows'          => 3,
-					'default_value' => '',
-				),
-				array(
-					'key'           => 'field_ich_diseases_index_uncategorized_title',
-					'label'         => __('Заголовок для заболеваний без рубрики', 'ichilovtop'),
-					'instructions'  => __('Показывается, если есть записи без отделения.', 'ichilovtop'),
-					'name'          => 'diseases_index_uncategorized_title',
-					'type'          => 'text',
-					'default_value' => '',
-				),
+					array(
+						'key'           => 'field_ich_diseases_index_hero_hint',
+						'label'         => __('Подсказка под карточками', 'ichilovtop'),
+						'name'          => 'diseases_index_hero_hint',
+						'type'          => 'text',
+						'default_value' => __('Выберите направление — или воспользуйтесь поиском', 'ichilovtop'),
+					),
+					array(
+						'key'   => 'field_ich_diseases_index_catalog_tab',
+						'label' => __('Каталог', 'ichilovtop'),
+						'type'  => 'tab',
+					),
+					array(
+						'key'           => 'field_ich_diseases_index_catalog_title',
+						'label'         => __('Заголовок блока каталога', 'ichilovtop'),
+						'instructions'  => __('Если пусто — используется стандартный заголовок.', 'ichilovtop'),
+						'name'          => 'diseases_index_catalog_title',
+						'type'          => 'text',
+						'default_value' => '',
+					),
+					array(
+						'key'           => 'field_ich_diseases_index_catalog_lead',
+						'label'         => __('Текст над списком заболеваний', 'ichilovtop'),
+						'instructions'  => __('Краткое вступление между контентом страницы и каталогом.', 'ichilovtop'),
+						'name'          => 'diseases_index_catalog_lead',
+						'type'          => 'textarea',
+						'rows'          => 3,
+						'default_value' => '',
+					),
+					array(
+						'key'           => 'field_ich_diseases_index_uncategorized_title',
+						'label'         => __('Заголовок для заболеваний без рубрики', 'ichilovtop'),
+						'instructions'  => __('Показывается, если есть записи без отделения.', 'ichilovtop'),
+						'name'          => 'diseases_index_uncategorized_title',
+						'type'          => 'text',
+						'default_value' => '',
+					),
+				)
 			),
 			'location' => array(
 				array(

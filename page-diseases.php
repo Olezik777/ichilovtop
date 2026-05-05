@@ -19,6 +19,73 @@ get_header();
 
 $page_id = get_queried_object_id();
 
+$hero_badge = ichilovtop_get_field(
+	'diseases_index_hero_badge',
+	__('Каталог заболеваний', 'ichilovtop'),
+	$page_id
+);
+$hero_title = ichilovtop_get_field(
+	'diseases_index_hero_title',
+	__('Лечение заболеваний в Израиле', 'ichilovtop'),
+	$page_id
+);
+$hero_title_accent = ichilovtop_get_field(
+	'diseases_index_hero_title_accent',
+	__('с ведущими специалистами Ихилов', 'ichilovtop'),
+	$page_id
+);
+$hero_lede = ichilovtop_get_field(
+	'diseases_index_hero_lede',
+	__('Найдите нужное заболевание, направление лечения или получите предварительную консультацию по вашему диагнозу.', 'ichilovtop'),
+	$page_id
+);
+$hero_search_placeholder = ichilovtop_get_field(
+	'diseases_index_hero_search_placeholder',
+	__('Например: рак молочной железы, аритмия, грыжа диска...', 'ichilovtop'),
+	$page_id
+);
+$hero_search_button = ichilovtop_get_field(
+	'diseases_index_hero_search_button',
+	__('Найти', 'ichilovtop'),
+	$page_id
+);
+$hero_hint = ichilovtop_get_field(
+	'diseases_index_hero_hint',
+	__('Выберите направление — или воспользуйтесь поиском', 'ichilovtop'),
+	$page_id
+);
+$hero_trust_defaults = array(
+	array(
+		'value' => __('72 ч', 'ichilovtop'),
+		'label' => __('организация диагностики', 'ichilovtop'),
+	),
+	array(
+		'value' => __('200+', 'ichilovtop'),
+		'label' => __('врачей и профессоров', 'ichilovtop'),
+	),
+	array(
+		'value' => __('24/7', 'ichilovtop'),
+		'label' => __('сопровождение пациента', 'ichilovtop'),
+	),
+	array(
+		'value' => __('Tel Aviv', 'ichilovtop'),
+		'label' => __('Sourasky · JCI', 'ichilovtop'),
+	),
+);
+$hero_trust_items = ichilovtop_get_fixed_items(
+	'diseases_index_hero_trust',
+	4,
+	array('value', 'label'),
+	$hero_trust_defaults,
+	$page_id
+);
+$hero_trust_icons = array(
+	'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+	'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+	'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+	'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+);
+
 $catalog_title = ichilovtop_get_field(
 	'diseases_index_catalog_title',
 	'',
@@ -53,57 +120,45 @@ if (! empty($grouped['uncategorized'])) {
 }
 ?>
 
-<div class="content-area diseases-index">
+<div class="diseases-index">
 <section class="it-hero">
 	<div class="it-hero__bg" aria-hidden="true"></div>
 
 	<div class="it-hero__inner">
 		<div class="it-hero__left">
-			<span class="it-hero__badge">Каталог заболеваний</span>
+			<span class="it-hero__badge"><?php echo esc_html($hero_badge); ?></span>
 
 			<h1 class="it-hero__title">
-				Лечение заболеваний в Израиле
-				<span class="it-hero__title-accent">с ведущими специалистами Ихилов</span>
+				<?php echo esc_html($hero_title); ?>
+				<?php if ($hero_title_accent !== '') : ?>
+					<span class="it-hero__title-accent"><?php echo esc_html($hero_title_accent); ?></span>
+				<?php endif; ?>
 			</h1>
 
 			<p class="it-hero__lede">
-				Найдите нужное заболевание, направление лечения или получите
-				предварительную консультацию по вашему диагнозу.
+				<?php echo nl2br(esc_html($hero_lede)); ?>
 			</p>
 
 			<form class="it-hero__search" onsubmit="return false;" role="search">
 				<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 					<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
 				</svg>
-				<input id="it-search" type="text" placeholder="Например: рак молочной железы, аритмия, грыжа диска..." autocomplete="off" />
-				<button type="submit" class="it-btn it-btn--primary">Найти</button>
+				<input id="it-search" type="text" placeholder="<?php echo esc_attr($hero_search_placeholder); ?>" autocomplete="off" />
+				<button type="submit" class="it-btn it-btn--primary"><?php echo esc_html($hero_search_button); ?></button>
 			</form>
 
 			<ul class="it-hero__trust">
-				<li>
-					<span class="it-trust__icon">
-						<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-					</span>
-					<div><b>72 ч</b><small>организация диагностики</small></div>
-				</li>
-				<li>
-					<span class="it-trust__icon">
-						<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-					</span>
-					<div><b>200+</b><small>врачей и профессоров</small></div>
-				</li>
-				<li>
-					<span class="it-trust__icon">
-						<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-					</span>
-					<div><b>24/7</b><small>сопровождение пациента</small></div>
-				</li>
-				<li>
-					<span class="it-trust__icon">
-						<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
-					</span>
-					<div><b>Tel Aviv</b><small>Sourasky · JCI</small></div>
-				</li>
+				<?php foreach ($hero_trust_items as $trust_index => $trust_item) : ?>
+					<li>
+						<span class="it-trust__icon">
+							<?php echo ichilovtop_render_icon_markup($hero_trust_icons[ $trust_index ] ?? ''); ?>
+						</span>
+						<div>
+							<b><?php echo esc_html($trust_item['value']); ?></b>
+							<small><?php echo esc_html($trust_item['label']); ?></small>
+						</div>
+					</li>
+				<?php endforeach; ?>
 			</ul>
 		</div>
 
@@ -128,12 +183,12 @@ if (! empty($grouped['uncategorized'])) {
 				<?php endforeach; ?>
 			</div>
 
-			<p class="it-hero__hint">Выберите направление — или воспользуйтесь поиском</p>
+			<p class="it-hero__hint"><?php echo esc_html($hero_hint); ?></p>
 		</div>
 	</div>
 </section>
 
-	<div class="container content-layout">
+	<div id="diseases-catalog" class="container content-layout">
 		<div class="page-content">
 			<?php while (have_posts()) : the_post(); ?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -238,7 +293,6 @@ if (! empty($grouped['uncategorized'])) {
 
 		<?php if (! empty($nav_items)) : ?>
 			<aside class="sidebar-box sidebar-box--diseases-nav">
-				<span class="eyebrow"><?php esc_html_e('Каталог', 'ichilovtop'); ?></span>
 				<h3 class="diseases-index__nav-heading"><?php esc_html_e('Отделения', 'ichilovtop'); ?></h3>
 				<nav class="diseases-index__nav" aria-label="<?php esc_attr_e('Навигация по отделениям на странице', 'ichilovtop'); ?>" data-diseases-nav>
 					<ul class="diseases-index__nav-list">
