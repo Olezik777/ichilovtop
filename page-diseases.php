@@ -16,6 +16,7 @@ if (! defined('ABSPATH')) {
 
 get_header();
 
+
 $page_id = get_queried_object_id();
 
 $catalog_title = ichilovtop_get_field(
