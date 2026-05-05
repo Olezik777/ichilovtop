@@ -61,14 +61,12 @@
 	margin: 20px 0 0;
 	font-weight: 800;
 	letter-spacing: -0.02em;
-	font-size: clamp(30px, 4.6vw, 54px);
+	font-size: clamp(24px, 3.68vw, 43.2px);
 	line-height: 1.05;
 	color: var(--it-ink);
 }
 
 .it-hero__title-accent {
-	display: block;
-	margin-top: 8px;
 	color: var(--it-primary);
 }
 
@@ -279,6 +277,8 @@
 	width: 24px;
 	height: 24px;
 }
+
+#diseases-catalog { margin-top: 40px;}
 
 @media (min-width: 720px) {
 	.it-hero__trust {

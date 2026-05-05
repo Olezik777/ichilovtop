@@ -192,11 +192,9 @@ if (! empty($grouped['uncategorized'])) {
 		<div class="page-content">
 			<?php while (have_posts()) : the_post(); ?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-					<header class="entry-header">
-						<h1 class="entry-title">
-							<?php echo esc_html($catalog_title !== '' ? $catalog_title : get_the_title()); ?>
-						</h1>
-					</header>
+					<h2 class="entry-title">
+						<?php echo esc_html($catalog_title !== '' ? $catalog_title : get_the_title()); ?>
+					</h2>
 
 					<?php if (has_post_thumbnail()) : ?>
 						<div class="page-thumbnail">
