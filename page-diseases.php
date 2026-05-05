@@ -79,16 +79,6 @@ if (! empty($grouped['uncategorized'])) {
 				<button type="submit" class="it-btn it-btn--primary">Найти</button>
 			</form>
 
-			<div class="it-hero__chips">
-				<span class="it-hero__chips-label">Популярное:</span>
-				<button class="it-chip" data-filter="onco">Онкология</button>
-				<button class="it-chip" data-filter="cardio">Кардиохирургия</button>
-				<button class="it-chip" data-filter="neuro">Неврология</button>
-				<button class="it-chip" data-filter="ortho">Ортопедия</button>
-				<button class="it-chip" data-filter="ped">Педиатрия</button>
-				<button class="it-chip" data-filter="eye">Офтальмология</button>
-			</div>
-
 			<ul class="it-hero__trust">
 				<li>
 					<span class="it-trust__icon">
@@ -335,14 +325,7 @@ if (! empty($grouped['uncategorized'])) {
 		}
 
 		var cards = Array.prototype.slice.call(grid.querySelectorAll('.it-card'));
-		var chips = Array.prototype.slice.call(document.querySelectorAll('.it-hero .it-chip'));
 		var input = document.getElementById('it-search');
-
-		function setActiveChip(filter) {
-			chips.forEach(function(chip) {
-				chip.classList.toggle('is-active', chip.getAttribute('data-filter') === filter);
-			});
-		}
 
 		function highlight(filter) {
 			cards.forEach(function(card) {
@@ -351,21 +334,6 @@ if (! empty($grouped['uncategorized'])) {
 				card.classList.toggle('is-hit', !! filter && match);
 			});
 		}
-
-		chips.forEach(function(chip) {
-			chip.addEventListener('click', function() {
-				var filter = chip.getAttribute('data-filter');
-				var alreadyActive = chip.classList.contains('is-active');
-				if (alreadyActive) {
-					setActiveChip(null);
-					highlight(null);
-					return;
-				}
-
-				setActiveChip(filter);
-				highlight(filter);
-			});
-		});
 
 		if (input) {
 			input.addEventListener('input', function() {
