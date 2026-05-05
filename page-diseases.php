@@ -109,77 +109,23 @@ if (! empty($grouped['uncategorized'])) {
 
 		<div class="it-hero__right">
 			<div class="it-grid" id="it-grid">
-				<a class="it-card" data-id="onco" href="#onco">
-					<span class="it-card__icon">
-						<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-					</span>
-					<div class="it-card__title">Онкология</div>
-					<div class="it-card__count">64 заболевания</div>
-				</a>
-
-				<a class="it-card" data-id="cardio" href="#cardio">
-					<span class="it-card__icon">
-						<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-					</span>
-					<div class="it-card__title">Кардиология</div>
-					<div class="it-card__count">27 заболеваний</div>
-				</a>
-
-				<a class="it-card" data-id="neuro" href="#neuro">
-					<span class="it-card__icon">
-						<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3a3 3 0 0 0-3 3v.5A3 3 0 0 0 4 9v3a3 3 0 0 0 1 2.24V17a3 3 0 0 0 4 2.83V21h2V3H9z"/><path d="M15 3a3 3 0 0 1 3 3v.5A3 3 0 0 1 20 9v3a3 3 0 0 1-1 2.24V17a3 3 0 0 1-4 2.83V21h-2V3h2z"/></svg>
-					</span>
-					<div class="it-card__title">Неврология</div>
-					<div class="it-card__count">38 заболеваний</div>
-				</a>
-
-				<a class="it-card" data-id="ortho" href="#ortho">
-					<span class="it-card__icon">
-						<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a3 3 0 0 1 3 3 3 3 0 0 1-1 2.2 3 3 0 0 1 1 2.3 3 3 0 0 1-3 3l-1.5 1.5a3 3 0 0 1 0 4.2 3 3 0 0 1-4.2 0 3 3 0 0 1 0-4.2L13 13.5a3 3 0 0 1-3-3 3 3 0 0 1 1-2.3 3 3 0 0 1-1-2.2 3 3 0 0 1 3-3 3 3 0 0 1 2.3 1A3 3 0 0 1 17 3z"/></svg>
-					</span>
-					<div class="it-card__title">Ортопедия</div>
-					<div class="it-card__count">31 заболевание</div>
-				</a>
-
-				<a class="it-card" data-id="pulmo" href="#pulmo">
-					<span class="it-card__icon">
-						<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v18"/><path d="M5 8c-2 4-2 9 1 12 1 1 3 1 4-1V8"/><path d="M19 8c2 4 2 9-1 12-1 1-3 1-4-1V8"/></svg>
-					</span>
-					<div class="it-card__title">Пульмонология</div>
-					<div class="it-card__count">19 заболеваний</div>
-				</a>
-
-				<a class="it-card" data-id="gastro" href="#gastro">
-					<span class="it-card__icon">
-						<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v4a4 4 0 0 0 4 4 5 5 0 0 1 5 5v3a3 3 0 0 1-6 0v-1a4 4 0 0 0-4-4H5"/></svg>
-					</span>
-					<div class="it-card__title">Гастроэнтерология</div>
-					<div class="it-card__count">25 заболеваний</div>
-				</a>
-
-				<a class="it-card" data-id="eye" href="#eye">
-					<span class="it-card__icon">
-						<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
-					</span>
-					<div class="it-card__title">Офтальмология</div>
-					<div class="it-card__count">14 заболеваний</div>
-				</a>
-
-				<a class="it-card" data-id="ped" href="#ped">
-					<span class="it-card__icon">
-						<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
-					</span>
-					<div class="it-card__title">Педиатрия</div>
-					<div class="it-card__count">22 заболевания</div>
-				</a>
-
-				<a class="it-card" data-id="gen" href="#gen">
-					<span class="it-card__icon">
-						<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 2v4a4 4 0 0 1-4 4 4 4 0 0 0-4 4v4a4 4 0 0 0 4 4h2"/><circle cx="18" cy="14" r="3"/><path d="M18 17v4"/></svg>
-					</span>
-					<div class="it-card__title">Общая хирургия</div>
-					<div class="it-card__count">45 заболеваний</div>
-				</a>
+				<?php foreach ($grouped['sections'] as $hero_section) : ?>
+					<?php
+					$hero_term  = $hero_section['parent'];
+					$hero_icon  = ichilovtop_get_disease_department_icon_markup($hero_term);
+					$hero_count = ichilovtop_count_disease_department_posts($hero_section);
+					$hero_id    = ichilovtop_disease_department_section_id($hero_term);
+					?>
+					<a class="it-card" data-id="<?php echo esc_attr($hero_id); ?>" href="#<?php echo esc_attr($hero_id); ?>">
+						<?php if ($hero_icon !== '') : ?>
+							<span class="it-card__icon" aria-hidden="true">
+								<?php echo $hero_icon; ?>
+							</span>
+						<?php endif; ?>
+						<div class="it-card__title"><?php echo esc_html($hero_term->name); ?></div>
+						<div class="it-card__count"><?php echo esc_html(ichilovtop_format_disease_count($hero_count)); ?></div>
+					</a>
+				<?php endforeach; ?>
 			</div>
 
 			<p class="it-hero__hint">Выберите направление — или воспользуйтесь поиском</p>
@@ -221,11 +167,19 @@ if (! empty($grouped['uncategorized'])) {
 					</div>
 
 					<?php foreach ($grouped['sections'] as $section) : ?>
+						<?php $department_icon = ichilovtop_get_disease_department_icon_markup($section['parent']); ?>
 						<section
 							class="diseases-index__department"
 							id="<?php echo esc_attr(ichilovtop_disease_department_section_id($section['parent'])); ?>"
 						>
-							<h3 class="diseases-index__department-title"><?php echo esc_html($section['parent']->name); ?></h3>
+							<h3 class="diseases-index__department-title">
+								<?php if ($department_icon !== '') : ?>
+									<span class="diseases-index__department-icon" aria-hidden="true">
+										<?php echo $department_icon; ?>
+									</span>
+								<?php endif; ?>
+								<span><?php echo esc_html($section['parent']->name); ?></span>
+							</h3>
 							<?php if ($section['parent']->description) : ?>
 								<p class="diseases-index__department-desc"><?php echo esc_html($section['parent']->description); ?></p>
 							<?php endif; ?>

@@ -1278,3 +1278,43 @@ function ichilovtop_register_diseases_index_page_acf_fields() {
 	);
 }
 add_action('acf/init', 'ichilovtop_register_diseases_index_page_acf_fields');
+
+/**
+ * ACF fields for disease departments.
+ */
+function ichilovtop_register_disease_department_acf_fields() {
+	if (! function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group(
+		array(
+			'key'    => 'group_ichilovtop_disease_department',
+			'title'  => __('Отделение заболевания', 'ichilovtop'),
+			'fields' => array(
+				array(
+					'key'           => 'field_ich_disease_department_icon',
+					'label'         => __('SVG иконка', 'ichilovtop'),
+					'instructions'  => __('Выберите одну SVG иконку из папки темы assets/icons.', 'ichilovtop'),
+					'name'          => 'disease_department_icon',
+					'type'          => 'select',
+					'choices'       => ichilovtop_get_theme_svg_icon_choices(),
+					'return_format' => 'value',
+					'allow_null'    => 1,
+					'ui'            => 1,
+					'default_value' => '',
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param'    => 'taxonomy',
+						'operator' => '==',
+						'value'    => 'disease_department',
+					),
+				),
+			),
+		)
+	);
+}
+add_action('acf/init', 'ichilovtop_register_disease_department_acf_fields');

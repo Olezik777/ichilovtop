@@ -332,6 +332,8 @@ function ichilovtop_allowed_svg_tags() {
 			'fill'        => true,
 			'stroke'      => true,
 			'stroke-width'=> true,
+			'stroke-linecap'  => true,
+			'stroke-linejoin' => true,
 			'class'       => true,
 			'width'       => true,
 			'height'      => true,
@@ -467,6 +469,95 @@ function ichilovtop_render_icon_markup($svg_markup = '', $media = '', $size = 't
 	}
 
 	return sprintf('<img src="%1$s" alt="" loading="lazy" decoding="async">', esc_url($media_url));
+}
+
+function ichilovtop_get_theme_svg_icon_choices() {
+	$icons_dir = get_template_directory() . '/assets/icons';
+	$choices   = array();
+	$files     = glob($icons_dir . '/*.svg');
+
+	if (empty($files)) {
+		return $choices;
+	}
+
+	natcasesort($files);
+
+	foreach ($files as $file) {
+		$filename = basename($file);
+		$label    = preg_replace('/\.svg$/i', '', $filename);
+		$label    = str_replace(array('-', '_'), ' ', $label);
+		$label    = function_exists('mb_convert_case')
+			? mb_convert_case($label, MB_CASE_TITLE, 'UTF-8')
+			: ucwords($label);
+
+		$choices[ $filename ] = $label;
+	}
+
+	return $choices;
+}
+
+function ichilovtop_get_theme_svg_icon_markup($icon_filename) {
+	$icon_filename = is_string($icon_filename) ? basename($icon_filename) : '';
+
+	if ($icon_filename === '' || ! preg_match('/^[a-z0-9._-]+\.svg$/i', $icon_filename)) {
+		return '';
+	}
+
+	$icon_path = get_template_directory() . '/assets/icons/' . $icon_filename;
+
+	if (! is_readable($icon_path)) {
+		return '';
+	}
+
+	$svg_markup = file_get_contents($icon_path);
+
+	if (! is_string($svg_markup) || trim($svg_markup) === '') {
+		return '';
+	}
+
+	return ichilovtop_render_icon_markup($svg_markup);
+}
+
+function ichilovtop_get_disease_department_icon_markup($term) {
+	if (! ($term instanceof WP_Term) || ! function_exists('get_field')) {
+		return '';
+	}
+
+	$icon = get_field('disease_department_icon', $term);
+	if ($icon === null || $icon === false || $icon === '') {
+		$icon = get_field('disease_department_icon', $term->taxonomy . '_' . $term->term_id);
+	}
+
+	return ichilovtop_get_theme_svg_icon_markup($icon);
+}
+
+function ichilovtop_count_disease_department_posts($section) {
+	$count = 0;
+
+	if (empty($section['blocks']) || ! is_array($section['blocks'])) {
+		return $count;
+	}
+
+	foreach ($section['blocks'] as $block) {
+		$count += ! empty($block['posts']) && is_array($block['posts']) ? count($block['posts']) : 0;
+	}
+
+	return $count;
+}
+
+function ichilovtop_format_disease_count($count) {
+	$count     = (int) $count;
+	$mod_10    = $count % 10;
+	$mod_100   = $count % 100;
+	$word_form = __('заболеваний', 'ichilovtop');
+
+	if ($mod_10 === 1 && $mod_100 !== 11) {
+		$word_form = __('заболевание', 'ichilovtop');
+	} elseif ($mod_10 >= 2 && $mod_10 <= 4 && ($mod_100 < 12 || $mod_100 > 14)) {
+		$word_form = __('заболевания', 'ichilovtop');
+	}
+
+	return sprintf('%1$d %2$s', $count, $word_form);
 }
 
 function ichilovtop_get_fixed_items($prefix, $count, $sub_fields, $default = array(), $post_id = false) {
