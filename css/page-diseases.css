@@ -140,8 +140,14 @@
 
 .it-hero__trust li {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	gap: 12px;
+}
+
+.it-hero__trust li > div {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
 }
 
 .it-trust__icon {
@@ -165,9 +171,8 @@
 
 .it-hero__trust small {
 	display: block;
-	margin-top: 2px;
 	color: var(--it-muted);
-	font-size: 14.4px;
+	font-size: 16.56px;
 	line-height: 1.2;
 }
 
