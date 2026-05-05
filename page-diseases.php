@@ -75,6 +75,63 @@ if (! empty($grouped['uncategorized'])) {
 				</article>
 			<?php endwhile; ?>
 
+			<section class="diseases-hero">
+	<div class="container diseases-hero__inner">
+		<div class="diseases-hero__content">
+			<span class="diseases-hero__eyebrow">Каталог заболеваний</span>
+
+			<h1 class="diseases-hero__title">
+				Лечение заболеваний в Израиле с ведущими специалистами Ихилов
+			</h1>
+
+			<p class="diseases-hero__text">
+				Найдите нужное заболевание, направление лечения или получите предварительную консультацию по вашему диагнозу.
+			</p>
+
+			<div class="diseases-hero__actions">
+				<a href="#diseases-catalog" class="btn btn-primary diseases-hero__btn">
+					Смотреть каталог
+				</a>
+				<a href="#contact-form" class="btn btn-outline diseases-hero__btn">
+					Получить консультацию
+				</a>
+			</div>
+
+			<div class="diseases-hero__stats">
+				<div class="diseases-hero__stat">
+					<strong>72 ч</strong>
+					<span>на организацию диагностики</span>
+				</div>
+				<div class="diseases-hero__stat">
+					<strong>200+</strong>
+					<span>врачей и профессоров</span>
+				</div>
+				<div class="diseases-hero__stat">
+					<strong>24/7</strong>
+					<span>сопровождение пациента</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="diseases-hero__card">
+			<div class="diseases-hero__card-top">
+				<span>Ваш первый шаг</span>
+				<strong>Консультация по диагнозу</strong>
+			</div>
+
+			<ul class="diseases-hero__list">
+				<li>Разбор медицинских документов</li>
+				<li>Подбор профильного специалиста</li>
+				<li>Предварительный план диагностики</li>
+			</ul>
+
+			<a href="#contact-form" class="diseases-hero__card-link">
+				Отправить документы →
+			</a>
+		</div>
+	</div>
+</section>
+
 			<?php
 			$has_catalog = ! empty($grouped['sections']) || ! empty($grouped['uncategorized']);
 			if ($has_catalog) :
