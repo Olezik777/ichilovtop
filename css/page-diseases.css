@@ -8,9 +8,8 @@
 
 .diseases-hero__inner {
 	display: grid;
-	grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
-	gap: 40px;
-	align-items: center;
+	grid-template-columns: 1fr;
+	gap: 28px;
 }
 
 .diseases-hero__eyebrow {
@@ -25,7 +24,7 @@
 }
 
 .diseases-hero__title {
-	max-width: 780px;
+	max-width: 100%;
 	margin: 0 0 20px;
 	color: #102a43;
 	font-size: clamp(34px, 5vw, 58px);
@@ -34,7 +33,7 @@
 }
 
 .diseases-hero__text {
-	max-width: 650px;
+	max-width: 100%;
 	margin: 0 0 28px;
 	color: #486581;
 	font-size: 18px;
@@ -65,7 +64,7 @@
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: 14px;
-	max-width: 760px;
+	max-width: 100%;
 }
 
 .diseases-hero__stat {
@@ -92,6 +91,7 @@
 
 .diseases-hero__card {
 	position: relative;
+	max-width: 100%;
 	padding: 30px;
 	border-radius: 28px;
 	background: #ffffff;
@@ -165,10 +165,6 @@
 @media (max-width: 900px) {
 	.diseases-hero {
 		padding: 48px 0 40px;
-	}
-
-	.diseases-hero__inner {
-		grid-template-columns: 1fr;
 	}
 
 	.diseases-hero__stats {
