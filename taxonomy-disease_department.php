@@ -125,13 +125,13 @@ if (is_array($hero_image) && ! empty($hero_image['alt'])) {
 	$hero_image_alt = $hero_image['alt'];
 }
 
-$hero_cards = array();
+$catalog_nav_items = array();
 foreach ($catalog_blocks as $block_index => $block) {
 	$card_id = 'disease-term-block-' . ($block_index + 1);
 	if (! empty($block['term']) && $block['term'] instanceof WP_Term) {
 		$card_id = ichilovtop_disease_department_section_id($block['term']);
 	}
-	$hero_cards[] = array(
+	$catalog_nav_items[] = array(
 		'id'    => $card_id,
 		'title' => $block['title'],
 		'count' => count($block['posts']),
@@ -139,11 +139,28 @@ foreach ($catalog_blocks as $block_index => $block) {
 	);
 }
 
-$nav_items = $hero_cards;
+$other_department_items = array();
+foreach ($grouped['sections'] as $other_section) {
+	$other_term = $other_section['parent'];
+	if ((int) $other_term->term_id === (int) $parent_term->term_id) {
+		continue;
+	}
+
+	$other_url = get_term_link($other_term);
+	if (is_wp_error($other_url)) {
+		continue;
+	}
+
+	$other_department_items[] = array(
+		'title' => $other_term->name,
+		'url'   => $other_url,
+		'count' => ichilovtop_count_disease_department_posts($other_section),
+	);
+}
 
 $render_catalog_block = static function ($block, $index) use ($term, $hero_icon, $visible_limit) {
 	$block_term  = ! empty($block['term']) && $block['term'] instanceof WP_Term ? $block['term'] : $term;
-	$section_id  = ichilovtop_disease_department_section_id($block_term);
+	$section_id  = ! empty($block['section_id']) ? $block['section_id'] : ichilovtop_disease_department_section_id($block_term);
 	$block_icon  = ichilovtop_get_disease_department_icon_markup($block_term);
 	$block_icon  = $block_icon !== '' ? $block_icon : $hero_icon;
 	$block_url   = get_term_link($block_term);
@@ -154,10 +171,11 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 
 	foreach ($block_posts as $d_post) {
 		$search_text[] = get_the_title($d_post);
+		$search_text[] = get_the_excerpt($d_post);
 	}
 	?>
 	<article
-		class="it-dept diseases-index__department"
+		class="it-dept disease-taxonomy__section diseases-index__department"
 		id="<?php echo esc_attr($section_id); ?>"
 		data-name="<?php echo esc_attr($block['title']); ?>"
 		data-search="<?php echo esc_attr(implode(' ', array_filter($search_text))); ?>"
@@ -177,13 +195,34 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 			</div>
 		</div>
 
-		<ul class="it-list<?php echo count($block_posts) > $visible_limit ? ' is-collapsed' : ''; ?>"<?php echo count($block_posts) > $visible_limit ? ' data-collapsible="true"' : ''; ?>>
+		<div class="disease-taxonomy__diseases<?php echo count($block_posts) > $visible_limit ? ' is-collapsed' : ''; ?>"<?php echo count($block_posts) > $visible_limit ? ' data-collapsible="true"' : ''; ?>>
 			<?php foreach ($block_posts as $item_index => $d_post) : ?>
-				<li<?php echo $item_index >= $visible_limit ? ' class="it-hide"' : ''; ?>>
-					<a href="<?php echo esc_url(get_permalink($d_post)); ?>"><?php echo esc_html(get_the_title($d_post)); ?></a>
-				</li>
+				<?php
+				$disease_excerpt = get_the_excerpt($d_post);
+				$disease_thumb   = get_the_post_thumbnail($d_post, 'medium_large');
+				?>
+				<article
+					class="disease-taxonomy__disease<?php echo $item_index >= $visible_limit ? ' it-hide' : ''; ?>"
+					data-search="<?php echo esc_attr(trim(get_the_title($d_post) . ' ' . $disease_excerpt)); ?>"
+				>
+					<a class="disease-taxonomy__disease-link" href="<?php echo esc_url(get_permalink($d_post)); ?>">
+						<span class="disease-taxonomy__disease-thumb" aria-hidden="<?php echo $disease_thumb !== '' ? 'false' : 'true'; ?>">
+							<?php if ($disease_thumb !== '') : ?>
+								<?php echo $disease_thumb; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php else : ?>
+								<?php echo $block_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php endif; ?>
+						</span>
+						<span class="disease-taxonomy__disease-body">
+							<span class="disease-taxonomy__disease-title"><?php echo esc_html(get_the_title($d_post)); ?></span>
+							<?php if ($disease_excerpt !== '') : ?>
+								<span class="disease-taxonomy__disease-excerpt"><?php echo esc_html(wp_trim_words($disease_excerpt, 16)); ?></span>
+							<?php endif; ?>
+						</span>
+					</a>
+				</article>
 			<?php endforeach; ?>
-		</ul>
+		</div>
 
 		<?php if (count($block_posts) > $visible_limit) : ?>
 			<div class="it-foot">
@@ -301,7 +340,10 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 
 						<div class="it-cat-grid" id="it-catalog-grid">
 							<?php foreach ($catalog_blocks as $block_index => $block) : ?>
-								<?php $render_catalog_block($block, $block_index); ?>
+								<?php
+								$block['section_id'] = $catalog_nav_items[ $block_index ]['id'] ?? '';
+								$render_catalog_block($block, $block_index);
+								?>
 							<?php endforeach; ?>
 
 							<div class="it-empty" id="it-catalog-empty"><?php esc_html_e('Ничего не найдено. Попробуйте изменить запрос.', 'ichilovtop'); ?></div>
@@ -316,13 +358,15 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 					<p><?php esc_html_e('Оставьте заявку, и координатор поможет подобрать врача и программу диагностики.', 'ichilovtop'); ?></p>
 					<a class="button" href="#contact" data-it-popup-open><?php esc_html_e('Получить консультацию', 'ichilovtop'); ?></a>
 
-					<?php if (! empty($nav_items)) : ?>
-						<nav class="diseases-index__nav" aria-label="<?php esc_attr_e('Навигация по заболеваниям раздела', 'ichilovtop'); ?>" data-diseases-nav>
+					<?php if (! empty($other_department_items)) : ?>
+						<h3 class="diseases-index__nav-heading disease-taxonomy__other-heading"><?php esc_html_e('Другие отделения', 'ichilovtop'); ?></h3>
+						<nav class="diseases-index__nav" aria-label="<?php esc_attr_e('Другие отделения', 'ichilovtop'); ?>">
 							<ul class="diseases-index__nav-list">
-								<?php foreach ($nav_items as $item) : ?>
+								<?php foreach ($other_department_items as $item) : ?>
 									<li>
-										<a class="diseases-index__nav-link" href="#<?php echo esc_attr($item['id']); ?>">
+										<a class="diseases-index__nav-link" href="<?php echo esc_url($item['url']); ?>">
 											<?php echo esc_html($item['title']); ?>
+											<span class="disease-taxonomy__other-count"><?php echo esc_html(ichilovtop_format_disease_count($item['count'])); ?></span>
 										</a>
 									</li>
 								<?php endforeach; ?>
@@ -398,13 +442,13 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 			}
 			var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 			var rx = new RegExp('(' + escaped + ')', 'ig');
-			Array.prototype.slice.call(node.querySelectorAll('.it-list a, h3 a')).forEach(function(link) {
+			Array.prototype.slice.call(node.querySelectorAll('.disease-taxonomy__disease-title, .disease-taxonomy__disease-excerpt, h3 a')).forEach(function(link) {
 				link.innerHTML = link.textContent.replace(rx, '<mark>$1</mark>');
 			});
 		}
 
 		function resetMoreButton(department) {
-			var list = department.querySelector('.it-list[data-collapsible]');
+			var list = department.querySelector('.disease-taxonomy__diseases[data-collapsible]');
 			var button = department.querySelector('[data-more]');
 			if (! list || ! button) {
 				return;
@@ -420,7 +464,7 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 		Array.prototype.slice.call(root.querySelectorAll('[data-more]')).forEach(function(button) {
 			button.addEventListener('click', function() {
 				var department = button.closest('.it-dept');
-				var list = department ? department.querySelector('.it-list') : null;
+				var list = department ? department.querySelector('.disease-taxonomy__diseases') : null;
 				if (! list) {
 					return;
 				}
@@ -461,7 +505,7 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 					department.classList.toggle('is-hidden', ! hasMatch);
 
 					if (! query) {
-						Array.prototype.slice.call(department.querySelectorAll('.it-list li')).forEach(function(item) {
+						Array.prototype.slice.call(department.querySelectorAll('.disease-taxonomy__disease')).forEach(function(item) {
 							item.style.display = '';
 							visibleDiseases++;
 						});
@@ -472,12 +516,13 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 
 					if (hasMatch) {
 						visibleSections++;
-						var list = department.querySelector('.it-list');
+						var list = department.querySelector('.disease-taxonomy__diseases');
 						if (list) {
 							list.classList.remove('is-collapsed');
 						}
-						Array.prototype.slice.call(department.querySelectorAll('.it-list li')).forEach(function(item) {
-							var itemMatch = departmentMatch || item.textContent.toLowerCase().indexOf(query) !== -1;
+						Array.prototype.slice.call(department.querySelectorAll('.disease-taxonomy__disease')).forEach(function(item) {
+							var itemSearchText = (item.getAttribute('data-search') || item.textContent || '').toLowerCase();
+							var itemMatch = departmentMatch || itemSearchText.indexOf(query) !== -1;
 							item.style.display = itemMatch ? '' : 'none';
 							if (itemMatch) {
 								visibleDiseases++;
