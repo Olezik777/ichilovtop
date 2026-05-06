@@ -1574,11 +1574,6 @@ input[type="submit"]:focus {
   border-top: 1px solid var(--color-border);
 }
 
-.diseases-index__department:first-of-type {
-  margin-top: 28px;
-  padding-top: 0;
-  border-top: 0;
-}
 
 .diseases-index__department-title {
   font-size: clamp(1.35rem, 2vw, 1.65rem);
