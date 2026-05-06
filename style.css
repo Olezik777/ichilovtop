@@ -56,7 +56,14 @@ body {
 html,
 body {
   max-width: 100%;
+  /*
+   * `overflow-x: clip` clips horizontal overflow WITHOUT creating a scroll
+   * container, so descendants can still use `position: sticky`. The
+   * deprecated `overflow-x: hidden` value below is the legacy fallback for
+   * the few browsers that do not yet recognise `clip`.
+   */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 img {
@@ -103,10 +110,18 @@ select {
   overflow: hidden;
 }
 
-/* Sticky in-page sidebars need a scroll ancestor without overflow clipping */
-.site-main:has(.diseases-index) {
+/*
+ * Sticky in-page sidebars need every ancestor up to the viewport to NOT be a
+ * scroll container. `:has()` covers modern browsers; the body-class selectors
+ * below handle older browsers and the `body { overflow-x: hidden }` quirk that
+ * silently turns the body into a scroll container and kills `position: sticky`.
+ */
+.site-main:has(.diseases-index),
+.page-template-page-diseases .site-main,
+.tax-disease_department .site-main {
   overflow: visible;
 }
+
 
 .container {
   width: min(calc(100% - 32px), var(--container));
@@ -1629,13 +1644,16 @@ input[type="submit"]:focus {
   font-size: 1.15rem;
 }
 
-.diseases-index .content-layout {
+.diseases-index .content-layout,
+.diseases-index .it-cat-layout {
   align-items: start;
   align-content: start;
 }
 
+.diseases-index .sidebar-box--diseases-nav,
 .sidebar-box--diseases-nav {
   position: sticky;
+  position: -webkit-sticky;
   top: 96px;
   align-self: start;
   max-height: calc(100vh - 112px);
@@ -1646,13 +1664,20 @@ input[type="submit"]:focus {
   z-index: 10;
 }
 
+.sidebar-box--diseases-nav.is-stuck {
+  position: fixed;
+  top: 96px;
+}
+
 @media (min-width: 1081px) {
-  .diseases-index .content-layout > .page-content {
+  .diseases-index .content-layout > .page-content,
+  .diseases-index .it-cat-layout > .it-cat-main {
     grid-column: 1;
     grid-row: 1;
   }
 
-  .diseases-index .content-layout > aside.sidebar-box--diseases-nav {
+  .diseases-index .content-layout > aside.sidebar-box--diseases-nav,
+  .diseases-index .it-cat-layout > aside.sidebar-box--diseases-nav {
     grid-column: 2;
     grid-row: 1;
     margin-top: 0;
@@ -1712,12 +1737,15 @@ input[type="submit"]:focus {
     grid-row: auto;
   }
 
-  .diseases-index .sidebar-box--diseases-nav {
+  .diseases-index .sidebar-box--diseases-nav,
+  .diseases-index .sidebar-box--diseases-nav.is-stuck {
     order: -1;
     position: static;
     max-height: none;
     top: auto;
     z-index: auto;
+    width: auto;
+    left: auto;
   }
 }
 

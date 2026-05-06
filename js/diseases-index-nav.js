@@ -13,6 +13,143 @@
 		return Math.ceil(header.getBoundingClientRect().height) + 12;
 	}
 
+	/**
+	 * Sticky fallback for the diseases sidebar.
+	 *
+	 * Uses CSS `position: sticky` as the primary mechanism and only takes over
+	 * with manual `position: fixed` if the browser/layout silently broke sticky
+	 * (e.g. an ancestor with overflow: hidden / overflow-x clipping).
+	 */
+	function initStickySidebar() {
+		var sidebar = document.querySelector('.sidebar-box--diseases-nav');
+		if (!sidebar) {
+			return;
+		}
+		var parent = sidebar.parentElement;
+		if (!parent) {
+			return;
+		}
+
+		var DESKTOP_MIN = 1021;
+		var TOP_OFFSET = 96;
+		var BOTTOM_PAD = 16;
+
+		var placeholder = document.createElement('div');
+		placeholder.setAttribute('aria-hidden', 'true');
+		placeholder.className = 'sidebar-box--diseases-nav__placeholder';
+		placeholder.style.display = 'none';
+		placeholder.style.flex = '0 0 auto';
+		sidebar.parentNode.insertBefore(placeholder, sidebar);
+
+		var nativeStickyWorks = null;
+
+		function detectNativeSticky() {
+			if (window.innerWidth < DESKTOP_MIN) {
+				return false;
+			}
+			var probe = document.createElement('div');
+			probe.style.cssText = 'position:sticky;position:-webkit-sticky;top:0;';
+			sidebar.parentNode.insertBefore(probe, sidebar);
+			var ok = window.getComputedStyle(probe).position.indexOf('sticky') !== -1;
+			probe.parentNode.removeChild(probe);
+			if (!ok) {
+				return false;
+			}
+			// Also walk ancestors and ensure none clips sticky.
+			var node = sidebar.parentElement;
+			while (node && node !== document.body && node !== document.documentElement) {
+				var cs = window.getComputedStyle(node);
+				if (
+					cs.overflow === 'hidden' || cs.overflow === 'auto' || cs.overflow === 'scroll' ||
+					cs.overflowY === 'hidden' || cs.overflowY === 'auto' || cs.overflowY === 'scroll'
+				) {
+					return false;
+				}
+				node = node.parentElement;
+			}
+			return true;
+		}
+
+		function release() {
+			sidebar.classList.remove('is-stuck');
+			sidebar.style.left = '';
+			sidebar.style.width = '';
+			sidebar.style.top = '';
+			placeholder.style.display = 'none';
+			placeholder.style.height = '';
+			placeholder.style.width = '';
+		}
+
+		function update() {
+			if (window.innerWidth < DESKTOP_MIN) {
+				release();
+				return;
+			}
+			if (nativeStickyWorks === null) {
+				nativeStickyWorks = detectNativeSticky();
+			}
+			if (nativeStickyWorks) {
+				return;
+			}
+
+			var parentRect = parent.getBoundingClientRect();
+			var sidebarHeight = sidebar.offsetHeight;
+			var topOffset = getHeaderOffset() > 16 ? Math.max(getHeaderOffset(), TOP_OFFSET) : TOP_OFFSET;
+			var stickThreshold = topOffset;
+			var releaseBottom = parentRect.bottom - sidebarHeight - BOTTOM_PAD;
+
+			if (parentRect.top <= stickThreshold && releaseBottom > stickThreshold) {
+				if (!sidebar.classList.contains('is-stuck')) {
+					var rect = sidebar.getBoundingClientRect();
+					placeholder.style.display = 'block';
+					placeholder.style.height = sidebarHeight + 'px';
+					placeholder.style.width = rect.width + 'px';
+				}
+				var phRect = placeholder.getBoundingClientRect();
+				sidebar.classList.add('is-stuck');
+				sidebar.style.top = topOffset + 'px';
+				sidebar.style.left = phRect.left + 'px';
+				sidebar.style.width = phRect.width + 'px';
+			} else if (releaseBottom <= stickThreshold && parentRect.bottom > 0) {
+				// Pin to the bottom of the parent so it scrolls out smoothly.
+				if (!sidebar.classList.contains('is-stuck')) {
+					var r2 = sidebar.getBoundingClientRect();
+					placeholder.style.display = 'block';
+					placeholder.style.height = sidebarHeight + 'px';
+					placeholder.style.width = r2.width + 'px';
+				}
+				var ph2 = placeholder.getBoundingClientRect();
+				sidebar.classList.add('is-stuck');
+				sidebar.style.left = ph2.left + 'px';
+				sidebar.style.width = ph2.width + 'px';
+				sidebar.style.top = (releaseBottom) + 'px';
+			} else {
+				release();
+			}
+		}
+
+		var ticking = false;
+		function onScroll() {
+			if (!ticking) {
+				window.requestAnimationFrame(function () {
+					update();
+					ticking = false;
+				});
+				ticking = true;
+			}
+		}
+
+		function onResize() {
+			nativeStickyWorks = null;
+			release();
+			update();
+		}
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		window.addEventListener('resize', onResize, { passive: true });
+		update();
+	}
+
 	function init() {
 		var root = document.querySelector('.diseases-index');
 		if (!root) {
@@ -136,9 +273,14 @@
 		}
 	}
 
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', init);
-	} else {
+	function bootstrap() {
 		init();
+		initStickySidebar();
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', bootstrap);
+	} else {
+		bootstrap();
 	}
 })();
