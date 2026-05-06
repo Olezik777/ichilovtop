@@ -33,10 +33,20 @@ function ichilovtop_enqueue_assets() {
 	);
 
 	$diseases_css = get_template_directory() . '/css/page-diseases.css';
+	$navigation_js = get_template_directory() . '/js/site-navigation.js';
 	$diseases_nav = get_template_directory() . '/js/diseases-index-nav.js';
 	$diseases_tpl = get_page_template();
 	$uses_diseases_page =
 		$diseases_tpl && basename($diseases_tpl) === 'page-diseases.php';
+	if (is_readable($navigation_js)) {
+		wp_enqueue_script(
+			'ichilovtop-site-navigation',
+			get_template_directory_uri() . '/js/site-navigation.js',
+			array(),
+			filemtime($navigation_js),
+			true
+		);
+	}
 	if ($uses_diseases_page && is_readable($diseases_css)) {
 		wp_enqueue_style(
 			'ichilovtop-page-diseases',
