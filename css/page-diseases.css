@@ -618,47 +618,25 @@
 	display: none;
 }
 
-.disease-taxonomy__section {
-	grid-column: span 12;
-}
-
-.disease-taxonomy__diseases {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 14px;
-}
-
-.disease-taxonomy__diseases.is-collapsed .disease-taxonomy__disease.it-hide {
-	display: none;
-}
-
-.disease-taxonomy__disease {
+.it-cat .disease-taxonomy__disease {
 	min-width: 0;
+	padding: 0;
 }
 
 .disease-taxonomy__disease-link {
-	display: grid;
-	grid-template-columns: 112px minmax(0, 1fr);
-	min-height: 128px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 	overflow: hidden;
-	border: 1px solid var(--it-border);
-	border-radius: 16px;
-	background: #fff;
 	color: inherit;
 	text-decoration: none;
-	transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.disease-taxonomy__disease-link:hover {
-	transform: translateY(-2px);
-	border-color: rgba(14, 165, 164, 0.35);
-	box-shadow: 0 14px 28px -22px rgba(14, 165, 164, 0.48);
 }
 
 .disease-taxonomy__disease-thumb {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	height: 180px;
 	overflow: hidden;
 	background: linear-gradient(135deg, rgba(14, 165, 164, 0.12), rgba(34, 182, 214, 0.12));
 	color: var(--it-primary);
@@ -679,9 +657,9 @@
 .disease-taxonomy__disease-body {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	flex: 1;
 	min-width: 0;
-	padding: 16px;
+	padding: 18px;
 }
 
 .disease-taxonomy__disease-title {
@@ -783,8 +761,14 @@
 	gap: 6px;
 }
 
-.it-cat.is-list .disease-taxonomy__diseases {
-	grid-template-columns: 1fr;
+.it-cat.is-list .disease-taxonomy__disease-link {
+	display: grid;
+	grid-template-columns: 160px minmax(0, 1fr);
+}
+
+.it-cat.is-list .disease-taxonomy__disease-thumb {
+	height: 100%;
+	min-height: 130px;
 }
 
 .it-cat mark {
@@ -798,14 +782,6 @@
 	margin-top: 24px;
 	padding-top: 18px;
 	border-top: 1px solid var(--it-border);
-}
-
-.disease-taxonomy__other-count {
-	display: block;
-	margin-top: 3px;
-	color: var(--it-muted);
-	font-size: 12px;
-	font-weight: 600;
 }
 
 @media (min-width: 720px) {
@@ -921,15 +897,6 @@
 
 	.it-cat .it-dept h3 {
 		font-size: 16.5px;
-	}
-
-	.disease-taxonomy__diseases {
-		grid-template-columns: 1fr;
-	}
-
-	.disease-taxonomy__disease-link {
-		grid-template-columns: 92px minmax(0, 1fr);
-		min-height: 110px;
 	}
 
 	.it-cat .it-meta {
