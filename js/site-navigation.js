@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	var MOBILE_QUERY = '(max-width: 860px)';
+	var MOBILE_QUERY = '(max-width: 1060px)';
 	var FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 	function initHeaderNavigation() {
@@ -21,6 +21,7 @@
 
 		var mediaQuery = window.matchMedia(MOBILE_QUERY);
 		var lastFocusedElement = null;
+		var lockedScrollY = 0;
 
 		function isMobile() {
 			return mediaQuery.matches;
@@ -74,12 +75,38 @@
 			}
 		}
 
+		function lockPageScroll() {
+			var scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+			lockedScrollY = window.scrollY || window.pageYOffset || 0;
+			document.body.style.position = 'fixed';
+			document.body.style.top = '-' + lockedScrollY + 'px';
+			document.body.style.left = '0';
+			document.body.style.right = '0';
+			document.body.style.width = '100%';
+
+			if (scrollbarWidth > 0) {
+				document.body.style.paddingRight = scrollbarWidth + 'px';
+			}
+		}
+
+		function unlockPageScroll() {
+			document.body.style.position = '';
+			document.body.style.top = '';
+			document.body.style.left = '';
+			document.body.style.right = '';
+			document.body.style.width = '';
+			document.body.style.paddingRight = '';
+			window.scrollTo(0, lockedScrollY);
+		}
+
 		function openMenu() {
 			if (!isMobile()) {
 				return;
 			}
 
 			lastFocusedElement = document.activeElement;
+			lockPageScroll();
 			header.classList.add('is-mobile-menu-open');
 			document.body.classList.add('mobile-menu-open');
 			toggle.setAttribute('aria-expanded', 'true');
@@ -89,13 +116,18 @@
 		}
 
 		function closeMenu(restoreFocus) {
+			var wasOpen = header.classList.contains('is-mobile-menu-open');
+
 			header.classList.remove('is-mobile-menu-open');
 			document.body.classList.remove('mobile-menu-open');
+			if (wasOpen) {
+				unlockPageScroll();
+			}
 			toggle.setAttribute('aria-expanded', 'false');
 			toggle.setAttribute('aria-label', toggle.getAttribute('data-open-label') || 'Открыть меню');
 			setDrawerAvailability();
 
-			if (restoreFocus && lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+			if (wasOpen && restoreFocus && lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
 				lastFocusedElement.focus();
 			}
 		}
