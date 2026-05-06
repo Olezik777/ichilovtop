@@ -37,7 +37,8 @@ function ichilovtop_enqueue_assets() {
 	$diseases_nav = get_template_directory() . '/js/diseases-index-nav.js';
 	$diseases_tpl = get_page_template();
 	$uses_diseases_page =
-		$diseases_tpl && basename($diseases_tpl) === 'page-diseases.php';
+		($diseases_tpl && basename($diseases_tpl) === 'page-diseases.php')
+		|| is_tax('disease_department');
 	if (is_readable($navigation_js)) {
 		wp_enqueue_script(
 			'ichilovtop-site-navigation',
