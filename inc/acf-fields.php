@@ -1397,6 +1397,16 @@ function ichilovtop_register_disease_department_acf_fields() {
 					'ui'            => 1,
 					'default_value' => '',
 				),
+				array(
+					'key'           => 'field_ich_disease_department_hero_image',
+					'label'         => __('Изображение для баннера', 'ichilovtop'),
+					'instructions'  => __('Показывается справа в hero-блоке страницы отделения.', 'ichilovtop'),
+					'name'          => 'disease_department_hero_image',
+					'type'          => 'image',
+					'return_format' => 'array',
+					'preview_size'  => 'medium',
+					'library'       => 'all',
+				),
 			),
 			'location' => array(
 				array(

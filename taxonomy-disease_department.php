@@ -106,12 +106,24 @@ $hero_title              = sprintf(__('Лечение заболеваний: %s
 $hero_title_accent       = __('в клинике Ихилов', 'ichilovtop');
 $hero_lede               = trim(wp_strip_all_tags(term_description($term, 'disease_department')));
 $hero_search_placeholder = sprintf(__('Поиск по заболеванию в разделе %s...', 'ichilovtop'), $term->name);
-$hero_hint               = (int) $term->parent > 0
-	? __('Найдите заболевание в этом направлении', 'ichilovtop')
-	: __('Выберите направление или найдите заболевание через поиск', 'ichilovtop');
 $hero_icon               = ichilovtop_get_disease_department_icon_markup($term);
 $hero_icon               = $hero_icon !== '' ? $hero_icon : ichilovtop_render_icon_markup('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-4.4 7-10.5A7 7 0 0 0 5 10.5C5 16.6 12 21 12 21z"/><path d="M9 10h6"/><path d="M12 7v6"/></svg>');
 $visible_limit           = 12;
+$hero_image              = function_exists('get_field') ? get_field('disease_department_hero_image', $term) : null;
+if (($hero_image === null || $hero_image === false || $hero_image === '') && function_exists('get_field')) {
+	$hero_image = get_field('disease_department_hero_image', $term->taxonomy . '_' . $term->term_id);
+}
+if (($hero_image === null || $hero_image === false || $hero_image === '') && (int) $term->parent > 0 && function_exists('get_field')) {
+	$hero_image = get_field('disease_department_hero_image', $parent_term);
+	if ($hero_image === null || $hero_image === false || $hero_image === '') {
+		$hero_image = get_field('disease_department_hero_image', $parent_term->taxonomy . '_' . $parent_term->term_id);
+	}
+}
+$hero_image_url = ichilovtop_get_media_url($hero_image, 'large');
+$hero_image_alt = $term->name;
+if (is_array($hero_image) && ! empty($hero_image['alt'])) {
+	$hero_image_alt = $hero_image['alt'];
+}
 
 $hero_cards = array();
 foreach ($catalog_blocks as $block_index => $block) {
@@ -186,7 +198,7 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 };
 ?>
 
-<div class="diseases-index disease-taxonomy">
+<div class="diseases-index disease-taxonomy<?php echo $hero_image_url === '' ? ' disease-taxonomy--no-image' : ''; ?>">
 	<section class="it-hero">
 		<div class="it-hero__bg" aria-hidden="true"></div>
 
@@ -200,7 +212,7 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 				</h1>
 
 				<?php if ($hero_lede !== '') : ?>
-					<p class="it-hero__lede"><?php echo wp_kses_post(wpautop($hero_lede)); ?></p>
+					<p class="it-hero__lede"><?php echo nl2br(esc_html($hero_lede)); ?></p>
 				<?php else : ?>
 					<p class="it-hero__lede"><?php echo esc_html__('Подберите заболевание в нужном направлении и отправьте заявку, чтобы получить предварительный план диагностики или лечения.', 'ichilovtop'); ?></p>
 				<?php endif; ?>
@@ -251,24 +263,11 @@ $render_catalog_block = static function ($block, $index) use ($term, $hero_icon,
 				</ul>
 			</div>
 
-			<div class="it-hero__right">
-				<div class="it-grid" id="it-grid">
-					<?php foreach ($hero_cards as $card) : ?>
-						<a class="it-card" data-id="<?php echo esc_attr($card['id']); ?>" href="#<?php echo esc_attr($card['id']); ?>">
-							<span class="it-card__icon" aria-hidden="true">
-								<?php
-								$card_icon = $card['term'] instanceof WP_Term ? ichilovtop_get_disease_department_icon_markup($card['term']) : '';
-								echo $card_icon !== '' ? $card_icon : $hero_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								?>
-							</span>
-							<div class="it-card__title"><?php echo esc_html($card['title']); ?></div>
-							<div class="it-card__count"><?php echo esc_html(ichilovtop_format_disease_count($card['count'])); ?></div>
-						</a>
-					<?php endforeach; ?>
+			<?php if ($hero_image_url !== '') : ?>
+				<div class="it-hero__right disease-taxonomy__hero-media">
+					<img src="<?php echo esc_url($hero_image_url); ?>" alt="<?php echo esc_attr($hero_image_alt); ?>" loading="eager" decoding="async">
 				</div>
-
-				<p class="it-hero__hint"><?php echo esc_html($hero_hint); ?></p>
-			</div>
+			<?php endif; ?>
 		</div>
 	</section>
 
