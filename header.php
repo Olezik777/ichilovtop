@@ -76,7 +76,7 @@ $phone_link    = preg_replace('/[^0-9+]/', '', $phone_display);
 						<span><?php esc_html_e('Международный отдел', 'ichilovtop'); ?></span>
 						<strong><a href="<?php echo esc_url('tel:' . $phone_link); ?>"><?php echo esc_html($phone_display); ?></a></strong>
 					</div>
-					<a class="button" href="#contact"><?php esc_html_e('Оставить заявку', 'ichilovtop'); ?></a>
+					<a class="button" href="#contact" data-it-popup-open><?php esc_html_e('Оставить заявку', 'ichilovtop'); ?></a>
 				</div>
 			</div>
 			<div class="site-header__overlay" data-mobile-menu-overlay></div>

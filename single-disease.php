@@ -165,7 +165,7 @@ $faq_items         = ichilovtop_get_fixed_items('disease_faq', 3, array('questio
 							</div>
 						</article>
 					<?php endforeach; ?>
-					<a class="disease-banner__cta" href="#contact">
+					<a class="disease-banner__cta" href="#contact" data-it-popup-open>
 						<span class="disease-banner__cta-main"><?php esc_html_e('Получить консультацию', 'ichilovtop'); ?></span>
 						<span class="disease-banner__cta-sub"><?php esc_html_e('Узнайте свой план лечения', 'ichilovtop'); ?></span>
 					</a>
