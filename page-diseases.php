@@ -105,6 +105,20 @@ if ($uncat_title === '') {
 
 $grouped = ichilovtop_group_diseases_by_department();
 
+$nav_items = array();
+foreach ($grouped['sections'] as $section_nav) {
+	$nav_items[] = array(
+		'id'    => ichilovtop_disease_department_section_id($section_nav['parent']),
+		'label' => $section_nav['parent']->name,
+	);
+}
+if (! empty($grouped['uncategorized'])) {
+	$nav_items[] = array(
+		'id'    => ichilovtop_disease_department_section_id('uncategorized'),
+		'label' => $uncat_title,
+	);
+}
+
 $catalog_department_count = count($grouped['sections']) + (! empty($grouped['uncategorized']) ? 1 : 0);
 $catalog_department_word  = __('отделений', 'ichilovtop');
 $catalog_mod_10           = $catalog_department_count % 10;
@@ -282,61 +296,97 @@ $render_catalog_card = static function ($section, $is_uncategorized = false) use
 
 	<section class="it-cat" id="diseases-catalog">
 		<div class="it-wrap">
-			<?php while (have_posts()) : the_post(); ?>
-				<div class="it-head">
-					<div>
-						<h2><?php echo esc_html($catalog_title !== '' ? $catalog_title : get_the_title()); ?></h2>
-						<?php if ($catalog_lead !== '') : ?>
-							<p><?php echo esc_html($catalog_lead); ?></p>
+			<div class="it-cat-layout content-layout">
+				<div class="it-cat-main">
+					<?php while (have_posts()) : the_post(); ?>
+						<div class="it-head">
+							<div>
+								<h2><?php echo esc_html($catalog_title !== '' ? $catalog_title : get_the_title()); ?></h2>
+								<?php if ($catalog_lead !== '') : ?>
+									<p><?php echo esc_html($catalog_lead); ?></p>
+								<?php endif; ?>
+							</div>
+						</div>
+
+						<?php if (has_post_thumbnail()) : ?>
+							<div class="it-cat__thumb">
+								<?php the_post_thumbnail('large'); ?>
+							</div>
 						<?php endif; ?>
-					</div>
-				</div>
 
-				<?php if (has_post_thumbnail()) : ?>
-					<div class="it-cat__thumb">
-						<?php the_post_thumbnail('large'); ?>
-					</div>
-				<?php endif; ?>
+						<?php if (trim(get_the_content()) !== '') : ?>
+							<div class="it-cat__intro entry-content">
+								<?php the_content(); ?>
+							</div>
+						<?php endif; ?>
+					<?php endwhile; ?>
 
-				<?php if (trim(get_the_content()) !== '') : ?>
-					<div class="it-cat__intro entry-content">
-						<?php the_content(); ?>
-					</div>
-				<?php endif; ?>
-			<?php endwhile; ?>
+					<?php
+					$has_catalog = ! empty($grouped['sections']) || ! empty($grouped['uncategorized']);
+					if ($has_catalog) :
+						?>
+						<div class="it-toolbar" role="search">
+							<svg class="it-search-icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+							<input id="it-catalog-q" type="search" placeholder="<?php esc_attr_e('Поиск по заболеванию: рак, гастрит, аритмия...', 'ichilovtop'); ?>" autocomplete="off">
+							<span class="it-count" id="it-catalog-count"><?php echo esc_html($catalog_count_label); ?></span>
+							<div class="it-view" role="tablist" aria-label="<?php esc_attr_e('Вид каталога', 'ichilovtop'); ?>">
+								<button type="button" class="is-active" data-view="grid" aria-pressed="true">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+									<?php esc_html_e('Плитка', 'ichilovtop'); ?>
+								</button>
+								<button type="button" data-view="list" aria-pressed="false">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+									<?php esc_html_e('Список', 'ichilovtop'); ?>
+								</button>
+							</div>
+						</div>
 
-			<?php
-			$has_catalog = ! empty($grouped['sections']) || ! empty($grouped['uncategorized']);
-			if ($has_catalog) :
-				?>
-				<div class="it-toolbar" role="search">
-					<svg class="it-search-icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-					<input id="it-catalog-q" type="search" placeholder="<?php esc_attr_e('Поиск по заболеванию: рак, гастрит, аритмия...', 'ichilovtop'); ?>" autocomplete="off">
-					<span class="it-count" id="it-catalog-count"><?php echo esc_html($catalog_count_label); ?></span>
-					<div class="it-view" role="tablist" aria-label="<?php esc_attr_e('Вид каталога', 'ichilovtop'); ?>">
-						<button type="button" class="is-active" data-view="grid" aria-pressed="true">
-							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-							<?php esc_html_e('Плитка', 'ichilovtop'); ?>
-						</button>
-						<button type="button" data-view="list" aria-pressed="false">
-							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-							<?php esc_html_e('Список', 'ichilovtop'); ?>
-						</button>
-					</div>
-				</div>
+						<div class="it-cat-grid" id="it-catalog-grid">
+							<?php foreach ($grouped['sections'] as $section) : ?>
+								<?php $render_catalog_card($section); ?>
+							<?php endforeach; ?>
 
-				<div class="it-cat-grid" id="it-catalog-grid">
-					<?php foreach ($grouped['sections'] as $section) : ?>
-						<?php $render_catalog_card($section); ?>
-					<?php endforeach; ?>
+							<?php if (! empty($grouped['uncategorized'])) : ?>
+								<?php $render_catalog_card($grouped['uncategorized'], true); ?>
+							<?php endif; ?>
 
-					<?php if (! empty($grouped['uncategorized'])) : ?>
-						<?php $render_catalog_card($grouped['uncategorized'], true); ?>
+							<div class="it-empty" id="it-catalog-empty"><?php esc_html_e('Ничего не найдено. Попробуйте изменить запрос.', 'ichilovtop'); ?></div>
+						</div>
 					<?php endif; ?>
-
-					<div class="it-empty" id="it-catalog-empty"><?php esc_html_e('Ничего не найдено. Попробуйте изменить запрос.', 'ichilovtop'); ?></div>
 				</div>
-			<?php endif; ?>
+
+				<?php if (! empty($nav_items)) : ?>
+					<aside class="sidebar-box sidebar-box--diseases-nav">
+						<h3 class="diseases-index__nav-heading"><?php esc_html_e('Отделения', 'ichilovtop'); ?></h3>
+						<nav class="diseases-index__nav" aria-label="<?php esc_attr_e('Навигация по отделениям на странице', 'ichilovtop'); ?>" data-diseases-nav>
+							<ul class="diseases-index__nav-list">
+								<?php foreach ($nav_items as $item) : ?>
+									<li>
+										<a class="diseases-index__nav-link" href="#<?php echo esc_attr($item['id']); ?>">
+											<?php echo esc_html($item['label']); ?>
+										</a>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						</nav>
+					</aside>
+				<?php else : ?>
+					<aside class="sidebar-box">
+						<span class="eyebrow"><?php esc_html_e('Навигация', 'ichilovtop'); ?></span>
+						<h3><?php esc_html_e('Разделы сайта', 'ichilovtop'); ?></h3>
+						<?php
+						wp_nav_menu(
+							array(
+								'theme_location' => 'primary',
+								'container'      => false,
+								'fallback_cb'    => 'wp_page_menu',
+								'menu_class'     => 'menu',
+							)
+						);
+						?>
+					</aside>
+				<?php endif; ?>
+			</div>
 		</div>
 	</section>
 </div>

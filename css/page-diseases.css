@@ -281,6 +281,21 @@
 	padding: 0 20px;
 }
 
+.it-cat .it-cat-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
+	gap: 28px;
+	align-items: start;
+}
+
+.it-cat-main {
+	min-width: 0;
+}
+
+.it-cat .sidebar-box {
+	margin: 0;
+}
+
 .it-cat .it-head {
 	display: flex;
 	flex-wrap: wrap;
@@ -711,6 +726,18 @@
 @media (max-width: 1100px) {
 	.it-cat .it-dept {
 		grid-column: span 6;
+	}
+}
+
+@media (max-width: 1020px) {
+	.it-cat .it-cat-layout {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.it-cat .sidebar-box--diseases-nav {
+		order: -1;
+		width: 100%;
 	}
 }
 
