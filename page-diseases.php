@@ -389,6 +389,128 @@ $render_catalog_card = static function ($section, $is_uncategorized = false) use
 			</div>
 		</div>
 	</section>
+
+	<section class="it-pr" aria-labelledby="it-pr-title">
+		<div class="it-pr__inner">
+
+			<header class="it-pr__head">
+				<span class="it-pr__eyebrow"><i></i> <?php esc_html_e('Прозрачный процесс', 'ichilovtop'); ?></span>
+				<h2 class="it-pr__title" id="it-pr-title">
+					<?php esc_html_e('Как проходит лечение в', 'ichilovtop'); ?> <b>Ichilov Top</b>
+				</h2>
+				<p class="it-pr__sub">
+					<?php esc_html_e('От первой заявки до возвращения домой — мы сопровождаем пациента на каждом этапе. Никаких скрытых платежей и посредников: только прямой контакт с клиникой Сураски (Ихилов).', 'ichilovtop'); ?>
+				</p>
+			</header>
+
+			<div class="it-pr__grid">
+
+				<article class="it-pr__step">
+					<div class="it-pr__top">
+						<div class="it-pr__num">01</div>
+						<div class="it-pr__icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M9 14h6M9 17h4"/></svg>
+						</div>
+					</div>
+					<h3 class="it-pr__name"><?php esc_html_e('Отправка медицинских документов', 'ichilovtop'); ?></h3>
+					<p class="it-pr__desc"><?php esc_html_e('Загрузите выписки, снимки и анализы через защищённую форму или мессенджер. Поддерживаем любой язык оригинала.', 'ichilovtop'); ?></p>
+					<div class="it-pr__meta">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+						<?php esc_html_e('в течение дня', 'ichilovtop'); ?>
+					</div>
+				</article>
+
+				<article class="it-pr__step">
+					<div class="it-pr__top">
+						<div class="it-pr__num">02</div>
+						<div class="it-pr__icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
+						</div>
+					</div>
+					<h3 class="it-pr__name"><?php esc_html_e('Предварительный анализ случая', 'ichilovtop'); ?></h3>
+					<p class="it-pr__desc"><?php esc_html_e('Профильный врач Ихилов изучает документы и даёт первичное заключение: уточняет диагноз и предлагает направления лечения.', 'ichilovtop'); ?></p>
+					<div class="it-pr__meta">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+						<?php esc_html_e('Бесплатно', 'ichilovtop'); ?>
+						<span class="it-pr__free"><?php esc_html_e('без обязательств', 'ichilovtop'); ?></span>
+					</div>
+				</article>
+
+				<article class="it-pr__step">
+					<div class="it-pr__top">
+						<div class="it-pr__num">03</div>
+						<div class="it-pr__icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/><path d="M17 4l1.5 1.5L21 3"/></svg>
+						</div>
+					</div>
+					<h3 class="it-pr__name"><?php esc_html_e('Подбор профильного врача', 'ichilovtop'); ?></h3>
+					<p class="it-pr__desc"><?php esc_html_e('Подбираем профессора с опытом именно по вашему диагнозу — из штатных специалистов отделения, а не «по списку».', 'ichilovtop'); ?></p>
+					<div class="it-pr__meta">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.3 7.2 16.9l.9-5.4L4.2 7.7l5.4-.8z"/></svg>
+						<?php esc_html_e('200+ ведущих врачей', 'ichilovtop'); ?>
+					</div>
+				</article>
+
+				<article class="it-pr__step">
+					<div class="it-pr__top">
+						<div class="it-pr__num">04</div>
+						<div class="it-pr__icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.6 2-3.4 2-5a7 7 0 1 0-14 0c0 1.6.5 3.4 2 5l5 6z"/><circle cx="12" cy="9" r="2.5"/></svg>
+						</div>
+					</div>
+					<h3 class="it-pr__name"><?php esc_html_e('Диагностика в клинике', 'ichilovtop'); ?></h3>
+					<p class="it-pr__desc"><?php esc_html_e('Полное обследование на оборудовании экспертного класса: ПЭТ-КТ, МРТ 3 Тесла, расширенные лабораторные панели и ревизия гистологии.', 'ichilovtop'); ?></p>
+					<div class="it-pr__meta">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>
+						<?php esc_html_e('точный диагноз за 3–5 дней', 'ichilovtop'); ?>
+					</div>
+				</article>
+
+				<article class="it-pr__step">
+					<div class="it-pr__top">
+						<div class="it-pr__num">05</div>
+						<div class="it-pr__icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+						</div>
+					</div>
+					<h3 class="it-pr__name"><?php esc_html_e('Индивидуальный план лечения', 'ichilovtop'); ?></h3>
+					<p class="it-pr__desc"><?php esc_html_e('Консилиум формирует протокол под ваш случай: операция, таргетная терапия, иммунотерапия или комбинированный подход. Со сроками и сметой.', 'ichilovtop'); ?></p>
+					<div class="it-pr__meta">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+						<?php esc_html_e('консилиум профессоров', 'ichilovtop'); ?>
+					</div>
+				</article>
+
+				<article class="it-pr__step">
+					<div class="it-pr__top">
+						<div class="it-pr__num">06</div>
+						<div class="it-pr__icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 11.5a8.8 8.8 0 1 1-3.3-6.5"/><path d="M21 4v5h-5"/><path d="M9 12l2 2 4-4"/></svg>
+						</div>
+					</div>
+					<h3 class="it-pr__name"><?php esc_html_e('Контроль и сопровождение после терапии', 'ichilovtop'); ?></h3>
+					<p class="it-pr__desc"><?php esc_html_e('Удалённые консультации, расшифровка контрольных обследований и связь с лечащим врачом — на русском языке, столько, сколько нужно.', 'ichilovtop'); ?></p>
+					<div class="it-pr__meta">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.5-7-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.5-7 10-7 10z"/></svg>
+						<?php esc_html_e('24/7 на связи', 'ichilovtop'); ?>
+					</div>
+				</article>
+
+			</div>
+
+			<div class="it-pr__cta">
+				<div class="it-pr__cta-text">
+					<h3><?php esc_html_e('Получите бесплатный анализ вашего случая', 'ichilovtop'); ?></h3>
+					<p><?php esc_html_e('Загрузите медицинские документы — в течение дня врач Ихилов изучит ситуацию и предложит план действий. Без обязательств и предоплаты.', 'ichilovtop'); ?></p>
+				</div>
+				<a href="#contact" class="it-pr__btn" data-it-popup-open>
+					<?php esc_html_e('Оставить заявку', 'ichilovtop'); ?>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+				</a>
+			</div>
+
+		</div>
+	</section>
 </div>
 
 <script>
@@ -559,6 +681,33 @@ $render_catalog_card = static function ($section, $is_uncategorized = false) use
 				}
 			});
 		}
+	})();
+
+	(function() {
+		var steps = document.querySelectorAll('.it-pr__step');
+		if (! steps.length) {
+			return;
+		}
+		if (! ('IntersectionObserver' in window)) {
+			Array.prototype.forEach.call(steps, function(step) {
+				step.classList.add('is-in');
+			});
+			return;
+		}
+		var io = new IntersectionObserver(function(entries) {
+			entries.forEach(function(entry) {
+				if (! entry.isIntersecting) {
+					return;
+				}
+				var idx = Array.prototype.indexOf.call(steps, entry.target);
+				entry.target.style.transitionDelay = (idx * 80) + 'ms';
+				entry.target.classList.add('is-in');
+				io.unobserve(entry.target);
+			});
+		}, { threshold: 0.15 });
+		Array.prototype.forEach.call(steps, function(step) {
+			io.observe(step);
+		});
 	})();
 </script>
 
